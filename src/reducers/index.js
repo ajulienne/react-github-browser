@@ -1,52 +1,83 @@
-import { FETCH_USER_DATA, FETCH_USER_REPOSITORIES } from "../actions";
+import {
+  FETCH_USER_DATA,
+  FETCH_USER_ERROR,
+  FETCH_REPOSITORIES_ERROR,
+  FETCH_USER_LOADING,
+  FETCH_REPOSITORIES_LOADING,
+  FETCH_REPOSITORIES_DATA
+} from "../actions";
 
 const initialState = {
-  user: {},
-  loading: false,
-  error: null
+  user: {
+    data: null,
+    loading: false,
+    error: null
+  },
+  repositories: {
+    data: null,
+    loading: false,
+    error: null
+  }
 }
-
-/*
- Github profile model
-
- user: { <== https://api.github.com/users/:user
-   login,
-   name,
-   company,
-   location,
-   blog,
-   bio,
-   public_repos,
-   followers,
-   following,
-   repos: [ <== https://api.github.com/users/:user/repos
-     name,
-     html_url,
-     description,
-     fork,
-     language,
-     fork_count
-   ]
- }
-*/
 
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_USER_DATA:
       return {
         ...state,
-        user: action.payload
-      };
-    case FETCH_USER_REPOSITORIES:
-      return {
-        ...state,
         user: {
           ...state.user,
-          repositories: action.payload
+          data: action.payload,
+          loading: false,
+          error: null
+        }
+      };
+    case FETCH_REPOSITORIES_DATA:
+      return {
+        ...state,
+        repositories: {
+          ...state.repositories,
+          data: action.payload,
+          loading: false,
+          error: null
         }
       }
-    default:
-      return state;
+      case FETCH_USER_LOADING:
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            loading: true
+          }
+        };
+      case FETCH_REPOSITORIES_LOADING:
+        return {
+          ...state,
+          repositories: {
+            ...state.repositories,
+            loading: true
+          }
+        };
+      case FETCH_USER_ERROR:
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            loading: false,
+            error: action.payload
+          }
+        };
+      case FETCH_REPOSITORIES_ERROR:
+        return {
+          ...state,
+          repositories: {
+            ...state.repositories,
+            loading: false,
+            error: action.payload
+          }
+        };
+      default:
+        return state;
   }
 }
 
