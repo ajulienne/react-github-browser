@@ -14,7 +14,6 @@ class Searchbar extends React.Component {
 
   handleSearch = (e) => {
     e.preventDefault();
-    console.log('search')
     if (this.state.username) {
       this.props.searchProfile(this.state.username);
     }

@@ -31,7 +31,7 @@ function UserProfile(props) {
     <div className="user-profile">
       { errors.length > 0 && (
         <div className="errors">
-          { errors.map(msg => <p>{msg}</p>) }
+          { errors.map((msg, key) => <p key={key}>{msg}</p>) }
       </div>
       )}
       { userDetailNode }

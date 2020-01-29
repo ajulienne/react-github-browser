@@ -4,8 +4,8 @@ import Repository from "../Repository/Repository";
 function PopularRepositories(props) {
   return (
     <Fragment>
-      {props.data.map(repo => {
-        return <Repository data={repo} />
+      {props.data.map((repo, key) => {
+        return <Repository key={key} data={repo} />
       })}
     </Fragment>
   );
