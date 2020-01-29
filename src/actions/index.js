@@ -1,5 +1,6 @@
 import github from "../apis/github";
 
+export const CLEAR_DATA = '[STORE] Clear';
 export const FETCH_USER_DATA = '[USER] Fetch Data';
 export const FETCH_USER_LOADING = '[USER] Load Data';
 export const FETCH_USER_ERROR = '[USER] Fetch User Data Error';
@@ -14,11 +15,18 @@ export const FETCH_REPOSITORIES_ERROR = '[REPOSITORY] Fetch User Data Error';
  * @param {string} githubLogin github login 
  */
 export const fetchUserAndRepos = githubLogin => async (dispatch, getState) => {
+  dispatch(clearData());
   dispatch(loadingUserData());
   await dispatch(fetchUserData(githubLogin))
   if (!getState().user.error) { // Don't fetch repository data if the user API call fails
     dispatch(loadingRepositoriesData());
     dispatch(fetchUserRepositories(githubLogin));
+  }
+}
+
+export const clearData = () => {
+  return {
+    type: CLEAR_DATA
   }
 }
 
@@ -75,7 +83,21 @@ export const fetchUserData = githubLogin => async dispatch => {
   try {
     const response = await github.get(`/users/${githubLogin}`);
 
-    const { login, name, type, company, location, blog, bio } = response.data;
+    const {
+      login,
+      name,
+      type,
+      company,
+      location,
+      blog,
+      bio,
+      public_repos,
+      public_gists,
+      followers,
+      following,
+      avatar_url,
+      html_url
+    } = response.data;
 
     dispatch({
       type: FETCH_USER_DATA,
@@ -87,6 +109,12 @@ export const fetchUserData = githubLogin => async dispatch => {
         location,
         blog,
         bio,
+        public_repos,
+        public_gists,
+        followers,
+        following,
+        avatar_url,
+        html_url
       }
     });
   } catch(err) {
@@ -104,8 +132,7 @@ export const fetchUserRepositories = githubLogin => async dispatch => {
     const response = await github.get(`/users/${githubLogin}/repos`, {
       params: {
         sort: 'updated',
-        direction: 'DESC',
-        per_page: 6
+        direction: 'DESC'
       }
     });
 

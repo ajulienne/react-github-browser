@@ -1,13 +1,14 @@
-import React, { Fragment } from "react";
+import React from "react";
 import Repository from "../Repository/Repository";
+import './PopularRepositories.css';
 
 function PopularRepositories(props) {
   return (
-    <Fragment>
+    <div className="tile is-ancestor wrap">
       {props.data.map((repo, key) => {
         return <Repository key={key} data={repo} />
       })}
-    </Fragment>
+    </div>
   );
 }
 

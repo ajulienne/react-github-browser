@@ -4,7 +4,8 @@ import {
   FETCH_REPOSITORIES_ERROR,
   FETCH_USER_LOADING,
   FETCH_REPOSITORIES_LOADING,
-  FETCH_REPOSITORIES_DATA
+  FETCH_REPOSITORIES_DATA,
+  CLEAR_DATA
 } from "../actions";
 
 const initialState = {
@@ -22,6 +23,8 @@ const initialState = {
 
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
+    case CLEAR_DATA:
+      return initialState;
     case FETCH_USER_DATA:
       return {
         ...state,
