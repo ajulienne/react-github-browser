@@ -15,7 +15,6 @@ function UserDetail(props) {
     listEntries.push({icon: "fas fa-link", node: <a href={props.data.blog}>{props.data.blog}</a>});
   }
 
-
   return (
     <div className="columns is-desktop user-detail is-vcentered">
       <div className="column is-one-third">
@@ -42,7 +41,7 @@ function UserDetail(props) {
         <div className="level-item has-text-centered">
           <div>
             <p className="heading">Repositories</p>
-          <p className="title">{abbreviateNumber(props.data.public_repos)}</p>
+            <p className="title">{abbreviateNumber(props.data.public_repos)}</p>
           </div>
         </div>
         <div className="level-item has-text-centered">

@@ -3,12 +3,12 @@ const SYMBOLS = ["", "k", "M"];
 /**
  * Abbreviate a number by tier (thousands, millions)
  * @param {number} number input number (e.g. 127348)
- * @returns {number} the abbreviated number (e.g. 127k) 
+ * @returns {string} the abbreviated number (e.g. 127k) 
  */
 export const abbreviateNumber = number => {
     var tier = Math.log10(number) / 3 | 0;
     if (tier === 0) {
-      return number;
+      return number.toFixed(0).toString();
     }
 
     var suffix = SYMBOLS[tier];
