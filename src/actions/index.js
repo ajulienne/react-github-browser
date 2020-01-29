@@ -1,24 +1,27 @@
-export const FETCH_USER_DATA = '[USER] Fetch';
-export const FETCH_USER_DATA_SUCCESS = '[USER] Fetch - Success';
-export const FETCH_USER_DATA_ERROR = '[USER] Fetch - Error';
+import github from "../apis/github";
 
-export const fetchUserData = name => {
-  return {
+export const FETCH_USER_DATA = '[USER] Fetch Data';
+export const FETCH_USER_REPOSITORIES = '[USER] Fetch Repositories';
+
+export const fetchUserAndRepos = name => async dispatch => {
+  await dispatch(fetchUserData(name));
+  dispatch(fetchUserRepositories(name));
+}
+
+export const fetchUserData = name => async dispatch => {  
+  const response = await github.get(`/users/${name}`);
+
+  dispatch({
     type: FETCH_USER_DATA,
-    payload: name
-  }
+    payload: response.data // TODO prune unwanted props
+  });
 }
 
-export const fetchUserDataSuccess = user => {
-  return {
-    type: FETCH_USER_DATA_SUCCESS,
-    payload: user
-  }
-}
+export const fetchUserRepositories = name => async dispatch => {
+  const response = await github.get(`/users/${name}/repos`);
 
-export const fetchUserDataError = error => {
-  return {
-    type: FETCH_USER_DATA_ERROR,
-    payload: error
-  }
+  dispatch({
+    type: FETCH_USER_REPOSITORIES,
+    payload: response.data
+  });
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { fetchUserData } from '../../actions';
+import { fetchUserAndRepos } from '../../actions';
 import { connect } from 'react-redux';
 
 class Searchbar extends React.Component {
@@ -30,7 +30,7 @@ class Searchbar extends React.Component {
 }
 
 const mapDispatchToProps = {
-  searchProfile: name => fetchUserData(name)
+  searchProfile: name => fetchUserAndRepos(name)
 };
 
 export default connect(null, mapDispatchToProps)(Searchbar);

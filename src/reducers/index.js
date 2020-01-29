@@ -1,4 +1,4 @@
-import { FETCH_USER_DATA, FETCH_USER_DATA_SUCCESS, FETCH_USER_DATA_ERROR } from "../actions";
+import { FETCH_USER_DATA, FETCH_USER_REPOSITORIES } from "../actions";
 
 const initialState = {
   user: {},
@@ -35,20 +35,16 @@ const profileReducer = (state = initialState, action) => {
     case FETCH_USER_DATA:
       return {
         ...state,
-        loading: true
+        user: action.payload
       };
-    case FETCH_USER_DATA_SUCCESS:
+    case FETCH_USER_REPOSITORIES:
       return {
         ...state,
-        user: action.payload,
-        loading: false
-      };
-    case FETCH_USER_DATA_ERROR:
-      return {
-        ...state,
-        error: action.payload,
-        loading: false
-      };
+        user: {
+          ...state.user,
+          repositories: action.payload
+        }
+      }
     default:
       return state;
   }
