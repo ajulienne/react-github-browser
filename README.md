@@ -1,8 +1,8 @@
-# Github profile
+# React Github browser
 
-React app with Redux to search for Github profiles with Github API.
+React app with Redux to search for Github profiles or repositories with Github API.
 
-<https://ajulienne.github.io/react-github-profiles/>
+<https://ajulienne.github.io/react-github-browser/>
 
 ## Github API
 

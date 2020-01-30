@@ -1,9 +1,9 @@
 {
-  "name": "github-profiles",
-  "description": "Search for github profiles",
+  "name": "github-browser",
+  "description": "Search for github profiles or repositories",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ajulienne.github.io/react-github-profiles",
+  "homepage": "https://ajulienne.github.io/react-github-browser",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
