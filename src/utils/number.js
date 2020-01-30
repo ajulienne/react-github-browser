@@ -19,3 +19,14 @@ export const abbreviateNumber = number => {
 
     return scaled.toFixed(0) + suffix;
 }
+
+/**
+ * Decode a base64 string in unicode 
+ * @param {string} str base64 value
+ */
+export const b64DecodeUnicode = str => {
+  // Going backwards: from bytestream, to percent-encoding, to original string.
+  return decodeURIComponent(atob(str).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+}

@@ -19,6 +19,11 @@ it("should return default state", () => {
             data: null,
             loading: false,
             error: null
+        },
+        repository: {
+            data: null,
+            loading: false,
+            error: null
         }
     });
 });

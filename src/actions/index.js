@@ -1,12 +1,19 @@
 import github from "../apis/github";
 
 export const CLEAR_DATA = '[STORE] Clear';
+
 export const FETCH_USER_DATA = '[USER] Fetch Data';
 export const FETCH_USER_LOADING = '[USER] Load Data';
 export const FETCH_USER_ERROR = '[USER] Fetch User Data Error';
-export const FETCH_REPOSITORIES_DATA = '[REPOSITORY] Fetch Repositories';
-export const FETCH_REPOSITORIES_LOADING = '[REPOSITORY] Load Data';
-export const FETCH_REPOSITORIES_ERROR = '[REPOSITORY] Fetch User Data Error';
+
+export const FETCH_REPOSITORIES_DATA = '[REPOSITORIES] Fetch Repositories';
+export const FETCH_REPOSITORIES_LOADING = '[REPOSITORIES] Load Data';
+export const FETCH_REPOSITORIES_ERROR = '[REPOSITORIES] Fetch Repositories Error';
+
+export const FETCH_REPOSITORY_DATA = '[REPOSITORY] Fetch Repository';
+export const FETCH_REPOSITORY_LOADING = '[REPOSITORY] Load Data';
+export const FETCH_REPOSITORY_ERROR = '[REPOSITORY] Fetch Repository Error';
+export const FETCH_REPOSITORY_README = '[REPOSITORY] Fetch Readme';
 
 /**
  * Combined action creator
@@ -33,7 +40,7 @@ export const clearData = () => {
 /**
  * Action creator
  * 
- * Set the loading state
+ * Set the loading state of the user tree
  */
 export const loadingUserData = () => {
   return {
@@ -41,9 +48,25 @@ export const loadingUserData = () => {
   }
 }
 
+/**
+ * Action creator
+ * 
+ * Set the loading state of the repositories list tree
+ */
 export const loadingRepositoriesData = () => {
   return {
     type: FETCH_REPOSITORIES_LOADING
+  }
+}
+
+/**
+ * Action creator
+ * 
+ * Set the loading state of the repository tree
+ */
+export const loadingRepositoryData = () => {
+  return {
+    type: FETCH_REPOSITORY_LOADING
   }
 }
 
@@ -69,6 +92,19 @@ export const fetchUserError = error => {
 export const fetchRepositoriesError = error => {
   return {
     type: FETCH_REPOSITORIES_ERROR,
+    payload: error
+  }
+}
+
+/**
+ * Action creator
+ * 
+ * Set an API call error when fetching a user's repository
+ * @param error  HTTP error
+ */
+export const fetchRepositoryError = error => {
+  return {
+    type: FETCH_REPOSITORY_ERROR,
     payload: error
   }
 }
@@ -154,5 +190,60 @@ export const fetchUserRepositories = githubLogin => async dispatch => {
     });
   } catch(err) {
     dispatch(fetchRepositoriesError(err.response));
+  }
+}
+
+/**
+ * Github API call to get the repositories of a user
+ * @param {string} githubLogin github login
+ */
+export const fetchUserRepository = (githubLogin, repositoryName) => async dispatch => {
+  dispatch(clearData());
+  dispatch(loadingRepositoryData());
+
+  try {
+    // Get the 6 newest repository, sorted by last updated
+    const response = await github.get(`/repos/${githubLogin}/${repositoryName}`);
+    const readme = await github.get(`/repos/${githubLogin}/${repositoryName}/readme`);
+
+    const {
+      name,
+      full_name,
+      html_url,
+      owner,
+      description,
+      fork,
+      ssh_url,
+      git_url,
+      clone_url,
+      homepage,
+      license,
+      subscribers_count,
+      language,
+      forks_count
+    } = response.data;
+
+    dispatch({
+      type: FETCH_REPOSITORY_DATA,
+      payload: {
+        name,
+        full_name,
+        html_url,
+        owner,
+        description,
+        fork,
+        ssh_url,
+        git_url,
+        clone_url,
+        homepage,
+        license,
+        subscribers_count,
+        language,
+        forks_count,
+        readme: readme.data.content
+      }
+    });
+  } catch(err) {
+    dispatch(fetchRepositoryError(err.response));
   }
 }

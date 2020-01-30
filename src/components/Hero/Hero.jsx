@@ -6,10 +6,10 @@ const Hero = () => {
       <div className="hero-body">
         <div className="container">
           <h1 className="title">
-            Github profile
+            Github browser
           </h1>
           <h2 className="subtitle">
-            Search the Github API to look for user or organization profiles<br />
+            Search the Github API to look for user, organization or repositories<br />
           </h2>
         </div>
       </div>
