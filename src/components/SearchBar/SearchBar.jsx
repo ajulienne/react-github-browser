@@ -34,7 +34,6 @@ class Searchbar extends React.Component {
             <input className="button is-large is-info" type="submit" value="Search" />
           </div>
         </div>
-       
       </form>
     );
   }

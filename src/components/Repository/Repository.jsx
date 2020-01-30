@@ -25,7 +25,7 @@ function Repository(props) {
               { props.data.forks_count > 0 && (
               <Fragment>
                 <span className="icon"><i className="fas fa-code-branch"></i></span>
-                <span>{props.data.forks_count}</span>
+                <span className="fork-count">{props.data.forks_count}</span>
               </Fragment>
               ) }
             </div>
