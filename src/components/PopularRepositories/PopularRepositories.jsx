@@ -4,7 +4,7 @@ import './PopularRepositories.css';
 
 function PopularRepositories(props) {
   return (
-    <div className="tile is-ancestor wrap">
+    <div className="tile is-ancestor wrap repositories">
       {props.data.map((repo, key) => {
         return <Repository key={key} data={repo} />
       })}

@@ -9,7 +9,7 @@ const Hero = () => {
             Github profile
           </h1>
           <h2 className="subtitle">
-            Search the Github API to look for user or organization profiles - Made with React and Redux
+            Search the Github API to look for user or organization profiles<br />
           </h2>
         </div>
       </div>

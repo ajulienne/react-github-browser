@@ -8,6 +8,8 @@ import App from './components/App/App';
 import profileReducer from './reducers';
 import * as serviceWorker from './serviceWorker';
 
+import './index.css';
+
 const store = createStore(
   profileReducer,
   compose(
