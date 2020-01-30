@@ -15,7 +15,8 @@ const App = props => {
       <div className="App container">
         <Searchbar />
         { props.repository.loading && <div style={{textAlign: 'center'}}><Loader /></div> }
-        { props.repository.data ? <RepositoryDetail data={props.repository.data} /> : <UserProfile />}
+        <RepositoryDetail repo={props.repository} />
+        <UserProfile />
       </div>
       <Footer />
     </Fragment>
