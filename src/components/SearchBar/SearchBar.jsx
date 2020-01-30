@@ -39,7 +39,7 @@ class Searchbar extends React.Component {
             </span>
           </div>
           <div className="control">
-            <input className="button is-large is-info" type="submit" value="Search" />
+            <input className="button is-large is-primary" type="submit" value="Search" />
           </div>
         </div>
       </form>
