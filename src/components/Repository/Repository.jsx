@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { stringToColour, getContrast } from "../../utils/color";
+import { Link, withRouter } from "react-router-dom";
 
 function Repository(props) {
 
@@ -15,7 +16,7 @@ function Repository(props) {
           <div className="media-content">
           <div className="content">
             <p>
-              <strong><a href={props.data.html_url}>{props.data.name}</a></strong><br />
+              <strong><Link to={props.location.pathname + '/' + props.data.name}>{props.data.name}</Link></strong><br />
               {props.data.description}
             </p>
           </div>
@@ -38,4 +39,4 @@ function Repository(props) {
   );
 }
 
-export default Repository;
+export default withRouter(Repository);

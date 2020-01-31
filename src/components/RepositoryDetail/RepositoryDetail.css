@@ -6,3 +6,7 @@
     position: relative;
     top: 3px;
 }
+
+.title .thinner {
+    font-weight: 400;
+}

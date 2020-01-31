@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Loader from "../Loader/Loader";
 
-const LoaderContainer = props => {
+const LoaderWrapper = props => {
     return (props.loading.user || props.loading.repositories || props.loading.repository) && <div style={{textAlign: 'center'}}><Loader /></div>;
 }
 
@@ -16,4 +16,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps)(LoaderContainer);
+export default connect(mapStateToProps)(LoaderWrapper);

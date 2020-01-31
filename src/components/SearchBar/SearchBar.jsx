@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { fetchUserAndRepos, fetchUserRepository } from '../../actions';
 import { connect } from 'react-redux';
 import './SearchBar.css';
+import { Redirect } from 'react-router-dom';
 
 class Searchbar extends React.Component {
 
   state = {
-    query: null
+    query: null,
+    redirect: null
   };
 
   handleQueryChange = (e) => {
@@ -23,15 +25,18 @@ class Searchbar extends React.Component {
       if (split.length > 2) {// wrong
         // TODO error
       } else if (split.length === 2) {
-        this.props.searchRepository(split[0], split[1]);
+        this.setState({redirect:`/${split[0]}/${split[1]}`});
       } else {
-        this.props.searchProfile(split[0]);
+        this.setState({redirect:`/${split[0]}`});
       }
     }
   }
 
   render() {
+
     return (
+      <Fragment>
+      {this.state.redirect && <Redirect to={this.state.redirect} />}
       <form className="search-bar" onSubmit={this.handleSearch}>
         <div className="field has-addons">
           <div className="control has-icons-left is-expanded">
@@ -45,6 +50,7 @@ class Searchbar extends React.Component {
           </div>
         </div>
       </form>
+      </Fragment>
     );
   }
 }

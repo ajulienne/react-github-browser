@@ -6,54 +6,67 @@ import CodeBlock from '../CodeBlock/CodeBlock';
 import { b64DecodeUnicode } from "../../utils/number";
 import Dropdown from "../Dropdown/Dropdown";
 import { connect } from "react-redux";
+import { fetchUserRepository } from "../../actions";
+import { compose } from "redux";
+import { withRouter, Link } from "react-router-dom";
 
-export const RepositoryDetail = props => {
+class RepositoryDetail extends React.Component {
 
-    const tagStyle = {
-        backgroundColor: stringToColour(props.repo?.language || 'other'),
-        color: getContrast(stringToColour(props.repo?.language || 'other'))
-    };
+    constructor(props) {
+        super(props);
+        this.state = {}
+        this.tagStyle = {
+            backgroundColor: stringToColour(props.repo?.language || 'other'),
+            color: getContrast(stringToColour(props.repo?.language || 'other'))
+        };
+    }
 
-    return (
-        <Fragment>
-            { props.repo !== null && <div className="box repository">
-                <article className="media">
-                <div className="media-content">
-                    <div className="content">
-                        <h1 className="title"><a href={props.repo.owner.html_url}>{props.repo.owner.login}</a> / <a href={props.repo.html_url}>{props.repo.name}</a></h1>
-                        <p>{props.repo.description}</p>
+    componentDidMount() {
+        this.props.fetch(this.props.match.params.githubLogin, this.props.match.params.repoName);
+    }
+
+    render() {
+        return (
+            <Fragment>
+                { this.props.repo !== null && <div className="box repository">
+                    <article className="media">
+                    <div className="media-content">
+                        <div className="content">
+                            <h1 className="title"><Link className="thinner" to={'/' + this.props.repo.owner.login}>{this.props.repo.owner.login}</Link> / {this.props.repo.name}</h1>
+                            <p>{this.props.repo.description}</p>
+                        </div>
+                        <nav className="level">
+                            <div className="level-item has-text-centered">
+                                <span className="level-item tag" style={this.tagStyle}>{this.props.repo.language || 'Other'}</span>
+                            </div>
+                            <div className="level-item has-text-centered">
+                                <p><span className="icon lowered"><i className="fas fa-code-branch"></i></span>{this.props.repo.forks_count}&nbsp;Forks</p>
+                            </div>
+                            <div className="level-item has-text-centered">
+                                <p><span className="icon lowered"><i className="fas fa-balance-scale"></i></span>&nbsp;{this.props.repo.license.name}</p>
+                            </div>
+                            <div className="level-item has-text-centered">
+                                <p><span className="icon lowered"><i className="fas fa-eye"></i></span>{this.props.repo.subscribers_count}&nbsp;Subscribers</p>
+                            </div>
+                            <div className="level-item has-text-centered">
+                                <Dropdown clone_url={this.props.repo.clone_url} ssh_url={this.props.repo.ssh_url} />
+                            </div>
+                        </nav>
+                        <hr />
+                        {this.props.repo.readme && (
+                            <ReactMarkdown
+                                renderers={{code: CodeBlock}}
+                                escapeHtml={false}
+                                className="content"
+                                source={b64DecodeUnicode(this.props.repo.readme)}
+                            />
+                        )}
                     </div>
-                    <nav className="level">
-                        <div className="level-item has-text-centered">
-                            <span className="level-item tag" style={tagStyle}>{props.repo.language || 'Other'}</span>
-                        </div>
-                        <div className="level-item has-text-centered">
-                            <p><span className="icon lowered"><i className="fas fa-code-branch"></i></span>{props.repo.forks_count}&nbsp;Forks</p>
-                        </div>
-                        <div className="level-item has-text-centered">
-                            <p><span className="icon lowered"><i className="fas fa-balance-scale"></i></span>&nbsp;{props.repo.license.name}</p>
-                        </div>
-                        <div className="level-item has-text-centered">
-                            <p><span className="icon lowered"><i className="fas fa-eye"></i></span>{props.repo.subscribers_count}&nbsp;Subscribers</p>
-                        </div>
-                        <div className="level-item has-text-centered">
-                            <Dropdown clone_url={props.repo.clone_url} ssh_url={props.repo.ssh_url} />
-                        </div>
-                    </nav>
-                    <hr />
-                    {props.repo.readme && (
-                        <ReactMarkdown 
-                            renderers={{code: CodeBlock}}
-                            escapeHtml={false}
-                            className="content"
-                            source={b64DecodeUnicode(props.repo.readme)}
-                        />
-                    )}
-                </div>
-                </article>
-            </div> }
-        </Fragment>
-    );
+                    </article>
+                </div> }
+            </Fragment>
+        );
+    }
 }
 
 const mapStateToProps = state => {
@@ -62,4 +75,11 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(RepositoryDetail);
+const mapDispatchToProps = {
+    fetch: (githubLogin, repoName) => fetchUserRepository(githubLogin, repoName)
+}
+
+export default compose(
+    withRouter,
+    connect(mapStateToProps, mapDispatchToProps)
+)(RepositoryDetail);
