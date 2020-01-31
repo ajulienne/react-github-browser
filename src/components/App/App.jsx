@@ -4,9 +4,9 @@ import UserProfile from '../UserProfile/UserProfile';
 import Hero from '../Hero/Hero';
 import './App.css';
 import Footer from '../Footer/Footer';
-import { connect } from 'react-redux';
 import RepositoryDetail from '../RepositoryDetail/RepositoryDetail';
-import Loader from '../Loader/Loader';
+import Errors from '../Errors/Errors';
+import LoaderContainer from '../LoaderContainer/LoaderContainer';
 
 const App = props => {
   return (
@@ -14,17 +14,14 @@ const App = props => {
       <Hero />
       <div className="App container">
         <Searchbar />
-        { props.repository.loading && <div style={{textAlign: 'center'}}><Loader /></div> }
-        <RepositoryDetail repo={props.repository} />
+        <Errors />
+        <RepositoryDetail/>
         <UserProfile />
+        <LoaderContainer />
       </div>
       <Footer />
     </Fragment>
   );
 }
 
-const mapStateToProps = state => {
-  return state;
-}
-
-export default connect(mapStateToProps)(App);
+export default App;
