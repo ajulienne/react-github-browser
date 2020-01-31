@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import {
-  BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  HashRouter
 } from "react-router-dom";
 
 import Searchbar from '../SearchBar/SearchBar';
@@ -19,7 +19,7 @@ const App = () => {
     <Fragment>
       <Hero />
       <div className="App container">
-        <Router>
+        <HashRouter>
           <Searchbar />
           <Errors />
           <Switch>
@@ -30,7 +30,7 @@ const App = () => {
               <UserProfile key={props.match.params.githubLogin} {...props} />
             )} />
           </Switch>
-        </Router>
+        </HashRouter>
         <LoaderWrapper />
       </div>
       <Footer />
