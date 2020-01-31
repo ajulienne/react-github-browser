@@ -8,7 +8,7 @@ import RepositoryDetail from '../RepositoryDetail/RepositoryDetail';
 import Errors from '../Errors/Errors';
 import LoaderContainer from '../LoaderContainer/LoaderContainer';
 
-const App = props => {
+const App = () => {
   return (
     <Fragment>
       <Hero />
