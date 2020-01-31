@@ -16,14 +16,16 @@ class Searchbar extends React.Component {
   handleSearch = (e) => {
     e.preventDefault();
     if (this.state.query) {
-
       const split = this.state.query.split('/');
+      if (split.length === 2 && !split[1]) {
+        split.pop();
+      }
       if (split.length > 2) {// wrong
         // TODO error
       } else if (split.length === 2) {
         this.props.searchRepository(split[0], split[1]);
       } else {
-        this.props.searchProfile(this.state.query);
+        this.props.searchProfile(split[0]);
       }
     }
   }
